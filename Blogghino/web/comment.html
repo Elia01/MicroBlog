@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Comment</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto|Open+Sans:400,700' rel='stylesheet' type='text/css'><link rel="stylesheet" href="./commentstyle.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="comments">
+
+    <h2>Leave a comment</h2>
+    
+
+    <form class="comments__form">
+      <div class="comments__form-info">
+
+        <div class="comments__form-field">
+          <input id="comments__form-label-name" name="reply" placeholder="Write name of someone" type="text" class="comments__form-input">
+          <label class="comments__form-label" for="comments__form-label-name">
+            <span class="comments__form-label-text">reply</span>
+          </label>
+        </div>
+
+        <div class="comments__form-field">
+          <input id="comments__form-label-mail" name="mail" placeholder="If you want to recive an advise insert the E-mail" type="text" class="comments__form-input">
+          <label class="comments__form-label" for="comments__form-label-mail">
+            <span class="comments__form-label-text">E-mail</span>
+          </label>
+        </div>
+
+        <div class="comments__form-field">
+          <input id="comments__form-label-site" name="website" placeholder="Website (not obbligatory)" type="text" class="comments__form-input">
+          <label class="comments__form-label" for="comments__form-label-site">
+            <span class="comments__form-label-text">Website</span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="comments__form-text">
+        
+        <div class="comments__form-field">
+          <textarea id="comments__form-label-text" name="comment" placeholder="Express your thoughts" type="text" class="comments__form-input comments__form-textarea"></textarea>
+          <label class="comments__form-label" for="comments__form-label-text">
+            <span class="comments__form-label-text">Express your thoughts</span>
+          </label>
+        </div>
+
+      </div>
+  <input name="submit" type="submit" id="submit" class="comments__form-submit" value="Post Comment">
+    </form>
+    
+    <div class="comments__list">
+      <!-- Comments --> 
+    </div>
+  </div>
+<!-- partial -->
+  <script  src="./commentscript.js"></script>
+  
+
+</body>
+</html>

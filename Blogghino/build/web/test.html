@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <script>
+        $(function() {
+	$("input[type=text]").on("input", function() {
+  	var app = $("[name=app]").val();
+    var desc = $("[name=desc]").val();
+    var imglink = $("[name=imglink]").val();
+    var applink = $("[name=applink]").val();
+    var price = $("[name=price]").val();
+    $("#output").get(0).innerHTML = $('<div/>').text('<a class="fragment" href="' + applink + '" target="_blank"> \
+        <div> \
+          <img class="imgbor" src="' + imglink + '" alt="some description" /> \
+          <span class="styleraise">' + app + '</span> \
+          <span class="styleraise1">' + price + '</span> \
+          <div class="textpara">' + desc + '</div> \
+        </div> \
+      </a>').html();
+  });
+});
+    </script>
+    
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>TODO write content</div>
+        App name<br>
+<input name="app" type="text"/><br>
+
+App description<br>
+<input name="desc" type="text"/><br>
+
+Image link<br>
+<input name="imglink" type="text"/><br>
+
+App  link<br>
+<input name="applink" type="text"/><br>
+
+Price<br>
+<input name="price" type="text"/><br>
+
+<code id="output"></code>
+    </body>
+</html>

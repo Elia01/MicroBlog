@@ -8,12 +8,184 @@ and open the template in the editor.
     <head>
         <title>Blogghino</title>
         <meta charset="ISO-8859-1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             * {box-sizing: border-box;}
 
             body { 
-                margin: 0;
+                background: linear-gradient(to right, dodgerblue 5%, MidnightBlue 100%);
+                margin:0;
+                font-size: 12px;
+            }
+            
+            body, button, input{
                 font-family: Arial, Helvetica, sans-serif;
+                font-weight: 700;
+                letter-spacing: 1.4px;
+            }
+            
+            .background{
+                display: flex;
+                min-height: 100vh;
+            }
+            
+            .container{
+                flex: 0 1 700px;
+                margin: auto;
+                padding: 10px;
+            }
+            
+            .screen{
+                position: relative;
+                background-color: #3e3e3e;
+                border-radius: 15px;
+                
+            }
+            
+            .screen:after{
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 20px;
+                right: 20px;
+                bottom: 0;
+                z-index: -1;
+                border-radius: 15px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            }
+            
+            .screen-header{
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                background-color: #4d4d4f;
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+                
+            }
+            
+            .screen-header-left{
+                margin-right: auto;
+            }
+            
+            .screen-header-button{
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                margin-right: 3px;
+                border-radius: 8px;
+                background-color: #fff;
+            }
+            
+            .screen-header-button.close{
+                background-color: #ed1c6f;
+            }
+            
+            .screen-header-button.maximize{
+                background-color: #e8e925;
+            }
+            
+            .screen-header-button.minimize{
+                background-color: #74c54f;
+            }
+            
+            .screen-header-right{
+                display: flex;
+            }
+            
+            .screen-header-ellipsis{
+                width: 3px;
+                height: 3px;
+                margin-left: 2px;
+                border-radius: 8px;
+                background-color: #999;
+            }
+            
+            .screen-body{
+                display: flex;
+            }
+            
+            .screen-body-item{
+                flex: 1;
+                padding: 50px;
+                
+            }
+            
+            .screen-body-item.left{
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .app-title{
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                color: dodgerblue;
+                font-size: 26px;
+            }
+            
+            .app-title:after{
+                content: '';
+                display: block;
+                position: absolute;
+                left: 0;
+                bottom: -10px;
+                width: 25px;
+                height: 4px;
+                background-color: dodgerblue;
+            }
+            
+            .app-sub{
+                margin-top: auto;
+                font-size: 11px;
+                color: #888;
+            }
+            
+            .app-form-group{
+                margin-bottom: 15px;
+            }
+            
+            .app-form-group.message{
+                margin-top: 40px;
+            }
+            
+            .app-form-group.buttons{
+                margin-bottom: 0px;
+                text-align: right;
+            }
+            
+            .app-form-control{
+                width: 100%;
+                padding: 10px 0;
+                background-color: transparent;
+                border: none;
+                border-bottom: 1px solid #666;
+                color: #ddd;
+                font-size: 14px;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+            
+            .app-form-control::placeholder{
+                color: #666;
+            }
+            
+            .app-form-control:focus{
+                border-bottom-color: #ddd;
+            }
+            
+            .app-form-button{
+                background-color: transparent;
+                border: none;
+                color: dodgerblue;
+                font-size: 14px;
+                cursor: pointer;
+                outline: none;
+            }
+            
+            .app-form-button:hover{
+                color: midnightblue;
             }
 
             .header {
@@ -52,6 +224,37 @@ and open the template in the editor.
                 float: right;
             }
 
+            @media screen and (max-width: 520px) {
+                .screen-body{
+                    flex-direction: column;
+                }
+                
+                .screen-body-item.left{
+                    margin-bottom: 30px;
+                }
+                
+                .app-title{
+                    flex-direction: row;
+                }
+                
+                .app-title span{
+                    margin-right: 12px;
+                }
+                
+                .app-title:after{
+                    display: none;
+                }
+  
+            }
+            @media screen and (max-width: 600px) {
+                .screen-body{
+                    padding: 40px;
+                }
+                
+                .screen-body-item{
+                    padding: 0;
+                }
+            }
             @media screen and (max-width: 500px) {
                 .header a {
                     float: none;
@@ -69,15 +272,76 @@ and open the template in the editor.
     </head>
     <body>
         <div class="header">
-            <a href="index.html" class="logo">Blogghino</a>
-            <div class="header-right">
-                <a class="active" href="index.html">Home</a>
-                <a href="login.html">Login</a>
-                <a href="Registration.html">Registration</a>
-                <a href="ProfileServlet">Profile</a>
-            </div>
+            <a href="home.html" class="logo">Blogghino</a>
         </div>
         
+        <div class="background">
+            <div class="container">
+                <div class="screen">
+                    <div class="screen-header">
+                        <div class="screen-header-left">
+                            <div class="screen-header-button close"></div>
+                            <div class="screen-header-button maximize"></div>
+                            <div class="screen-header-button minimize"></div>
+                        </div>
+                        
+                        <div class="screen-header-right">
+                            <div class="screen-header-ellipsis"></div>
+                            <div class="screen-header-ellipsis"></div>
+                            <div class="screen-header-ellipsis"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="screen-body">
+                        <div class="screen-body-item left">
+                            <div class="app-title">
+                                <span>CREATE NEW</span>
+                                <span>POST</span>
+                            </div>
+                            <div class="app-sub">MAKE AN AMAZING SITE</div>
+                            
+                        </div>
+                        
+                        <div class="screen-body-item">
+                            <div class="app-form">
+                                <form action="CreatePostServlet" method="post" id="form1">
+                                <div class="app-form-group">
+                                    <input class="app-form-control" type="text" placeholder="INSERT A TITLE" name="title">
+                                </div>
+                                
+                                <div class="app-form-group">
+                                    <input class="app-form-control" type="text" placeholder="INSERT A SUBTITLE" name="subtitle">
+                                </div>
+                                                                                               
+                                <div class="app-form-group">
+                                    <input class="app-form-control" type="text" placeholder="INSERT SOME TAGS" name="tags">
+                                </div>
+                                    
+                                <div class="app-form-group">
+                                    <input class="app-form-control" type="text" placeholder="INSERT IMAGE URL" name="image">
+                                </div>
+                                
+                                <div class="app-form-group message">
+                                    <textarea class="app-form-control" placeholder="INSERT A SHORT SUMMARY..." name="content"></textarea>
+                                    <!--<input class="app-form-control" type="text" placeholder="INSERT SOME CONTENT..." name="content">-->
+                                    
+                                </div>
+                                
+                                </form>
+                                <div class="app-form-group buttons">
+                                    <button class="app-form-button" onclick="window.location.href='welcome.html'">CANCEL</button>
+                                    <button class="app-form-button" type="submit" form="form1" value="Submit">SEND</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
         
     </body>
 </html>

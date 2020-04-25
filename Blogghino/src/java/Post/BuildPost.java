@@ -5,6 +5,20 @@
  */
 package Post;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -42,8 +56,9 @@ public class BuildPost {
         //</p>
         //</div>
         //</div>
+        //<!--This is the end line-->
 
-        String Content = "<p>" + cont + "</p><p class='read-more'><a href='#'>Read More</a></p></div></div>";
+        String Content = "<p>" + cont + "</p><p class='read-more'><a href='#'>Read More</a></p></div></div>" + "\n" + "<!--This is the end line-->";
 
         return Content;
 
@@ -54,10 +69,17 @@ public class BuildPost {
         //<div class="meta">
         //<div class="photo" style="background-image: url(https://storage.googleapis.com/chydlx/codepen/blog-cards/image-2.jpg)">
         //</div>
-        String Image = "<div class='blog-card alt'><div class='meta'>"
-                + "<div class='photo' style='background-image: url(" + link + ")'>";
+        int range = (int) (Math.random() * 1);
+        if (range == 0) {
+            String Image = "<div class='blog-card alt'><div class='meta'>"
+                    + "<div class='photo' style='background-image: url(" + link + ")'></div>";
+            return Image;
+        } else {
+            String Image = "<div class='blog-card'><div class='meta'>"
+                    + "<div class='photo' style='background-image: url(" + link + ")'></div>";
+            return Image;
+        }
 
-        return Image;
     }
 
     public static String BuildAuthor(String a) {
@@ -72,11 +94,16 @@ public class BuildPost {
     public static String BuildDate() {
         //<li class="date">July. 15, 2015</li>
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	LocalDate localDate = LocalDate.now(); //20/03/2020
+        Date date = new Date();
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        String data = day + "/" + month + "/" + year;
 
-        String Date = "<li class='date'>" + localDate+ "</li>";
-        
+        String Date = "<li class='date'>" + data + "</li>";
+
         return Date;
 
     }
@@ -84,10 +111,12 @@ public class BuildPost {
     public static String BuildHour() {
         //<li class="hour">13:12</li>
 
-        Date date = new Date(); 
+        Date date = new Date();
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
-        int ch = calendar.get(Calendar.HOUR_OF_DAY);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        String ch = hour + ":" + minute;
 
         String h = "<li class='hour'>" + ch + "</li>";
 
@@ -98,10 +127,11 @@ public class BuildPost {
         //<li class="tags"></li>
         //</ul>
         //</div>
-        
+
         String Tags = "<li class='tags'>" + tag + "</li></ul></div>";
-        
+
         return Tags;
 
     }
+
 }

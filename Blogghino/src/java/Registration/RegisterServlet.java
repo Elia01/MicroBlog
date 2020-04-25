@@ -58,13 +58,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
                 ps.executeUpdate();
                 
                 
-//                if(i > 0) {
-//                    out.println("<strong>" + "You are sucessfully registered" + "</strong>" + "<br>");
-//                    out.println("Welcome " + "<strong>" + name + "</strong>");
-//                    RequestDispatcher rs = request.getRequestDispatcher("index.html");
-//                    rs.include(request, response);
-//                    
-//                }
                 
             }
             catch(Exception se) {        
@@ -76,7 +69,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-	RequestDispatcher rds = request.getRequestDispatcher("WelcomeServlet");
+	RequestDispatcher rds = request.getRequestDispatcher("home.html");
         rds.forward(request, response);
     }
 }

@@ -28,6 +28,14 @@
         <servlet-name>RedirectingServlet</servlet-name>
         <servlet-class>Redirect.RedirectingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PostCommentServlet</servlet-name>
+        <servlet-class>Comment.PostCommentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginFirstServlet</servlet-name>
+        <servlet-class>Login.LoginFirstServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>RedirectingServlet</servlet-name>
         <url-pattern>/RedirectingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostCommentServlet</servlet-name>
+        <url-pattern>/PostCommentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginFirstServlet</servlet-name>
+        <url-pattern>/LoginFirstServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

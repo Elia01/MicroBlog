@@ -24,7 +24,7 @@ public class RedirectingServlet extends HttpServlet {
             throws ServletException, IOException {
             String wlcm = request.getParameter("wlcm");
             if(wlcm != ""){
-                response.sendRedirect("welcome.html");
+                response.sendRedirect("home.html");
             }
         
     }
