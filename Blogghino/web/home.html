@@ -1,387 +1,432 @@
 <!DOCTYPE html>
 <html>
-<script>
-    function includeHTML() {
-        var z, i, elmnt, file, xhttp;
-        /*loop through a collection of all HTML elements:*/
-        z = document.getElementsByTagName("*");
-        for (i = 0; i < z.length; i++) {
-            elmnt = z[i];
-            /*search for elements with a certain atrribute:*/
-            file = elmnt.getAttribute("w3-include-html");
-            if (file) {
-                /*make an HTTP request using the attribute value as the file name:*/
-                xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4) {
-                        if (this.status == 200) {
-                            elmnt.innerHTML = this.responseText;
+    <script>
+        function includeHTML() {
+            var z, i, elmnt, file, xhttp;
+            /*loop through a collection of all HTML elements:*/
+            z = document.getElementsByTagName("*");
+            for (i = 0; i < z.length; i++) {
+                elmnt = z[i];
+                /*search for elements with a certain atrribute:*/
+                file = elmnt.getAttribute("w3-include-html");
+                if (file) {
+                    /*make an HTTP request using the attribute value as the file name:*/
+                    xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4) {
+                            if (this.status == 200) {
+                                elmnt.innerHTML = this.responseText;
+                            }
+                            if (this.status == 404) {
+                                elmnt.innerHTML = "Page not found.";
+                            }
+                            /*remove the attribute, and call this function once more:*/
+                            elmnt.removeAttribute("w3-include-html");
+                            includeHTML();
                         }
-                        if (this.status == 404) {
-                            elmnt.innerHTML = "Page not found.";
-                        }
-                        /*remove the attribute, and call this function once more:*/
-                        elmnt.removeAttribute("w3-include-html");
-                        includeHTML();
                     }
+                    xhttp.open("GET", file, true);
+                    xhttp.send();
+                    /*exit the function:*/
+                    return;
                 }
-                xhttp.open("GET", file, true);
-                xhttp.send();
-                /*exit the function:*/
-                return;
             }
         }
-    }
-    ;
-</script>
+        ;
+    </script>
 
-<head>
-    <meta charset="ISO-8859-1">
-    <meta charset="utf-8">
-    <title>Blogghino</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    <head>
+        <meta charset="ISO-8859-1">
+        <meta charset="utf-8">
+        <title>Blogghino</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
 
-        .white {
-            color: #fff;
-        }
+            .white {
+                color: #fff;
+            }
 
-        .ddd {
-            color: #ddd;
-        }
+            .ddd {
+                color: #ddd;
+            }
 
-        .blog-card {
-            display: flex;
-            flex-direction: column;
-            margin: 1rem auto;
-            margin-bottom: 1.6%;
-            background: #fff;
-            line-height: 1.4;
-            font-family: sans-serif;
-            border-radius: 5px;
-            overflow: hidden;
-            z-index: 0;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .blog-card a {
-            color: inherit;
-        }
-
-        .blog-card a:hover {
-            color: #5ad67d;
-        }
-
-        .blog-card:hover .photo {
-            transform: scale(1.3) rotate(3deg);
-        }
-
-        .blog-card .meta {
-            position: relative;
-            z-index: 0;
-            height: 200px;
-        }
-
-        .blog-card .photo {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.2s;
-        }
-
-        .blog-card .details,
-        .blog-card .details ul {
-            margin: auto;
-            padding: 0;
-            list-style: none;
-        }
-
-        .blog-card .details {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: -100%;
-            margin: auto;
-            transition: left 0.2s;
-            background: rgba(0, 0, 0, .6);
-            color: #fff;
-            padding: 10px;
-            width: 100%;
-            font-size: 0.9rem;
-        }
-
-        .blog-card .details a {
-            text-decoration: dotted underline;
-        }
-
-        .blog-card .details ul li {
-            display: inline-block;
-        }
-
-        .blog-card .details .author:before {
-            font-family: FontAwesome;
-            margin-right: 10px;
-            content: "\f007";
-        }
-
-        .blog-card .details .date:before {
-            font-family: FontAwesome;
-            margin-right: 10px;
-            content: "\f133";
-        }
-
-        .blog-card .details .hour:before {
-            font-family: FontAwesome;
-            margin-right: 10px;
-            content: "\f017";
-        }
-
-        .blog-card .details .tags ul:before {
-            font-family: FontAwesome;
-            content: "\f02b";
-            margin-right: 10px;
-        }
-
-        .blog-card .details .tags li {
-            margin-right: 2px;
-        }
-
-        .blog-card .details .tags li:first-child {
-            margin-left: -4px;
-        }
-
-        .blog-card .description {
-            padding: 1rem;
-            background: #fff;
-            position: relative;
-            z-index: 1;
-        }
-
-        .blog-card .description h1,
-        .blog-card .description h2 {
-            font-family: Poppins, sans-serif;
-        }
-
-        .blog-card .description h1 {
-            line-height: 1;
-            margin: 0;
-            font-size: 1.7rem;
-        }
-
-        .blog-card .description h2 {
-            font-size: 1rem;
-            font-weight: 300;
-            text-transform: uppercase;
-            color: #a2a2a2;
-            margin-top: 5px;
-        }
-
-        .blog-card .description .read-more {
-            text-align: right;
-        }
-
-        .blog-card .description .read-more a {
-            color: dodgerblue;
-            display: inline-block;
-            position: relative;
-        }
-
-        .blog-card .description .read-more a:after {
-            content: "\f061";
-            font-family: FontAwesome;
-            margin-left: -10px;
-            opacity: 0;
-            vertical-align: middle;
-            transition: margin 0.3s, opacity 0.3s;
-        }
-
-        .blog-card .description .read-more a:hover:after {
-            margin-left: 5px;
-            opacity: 1;
-        }
-
-        .blog-card p {
-            position: relative;
-            margin: 1rem 0 0;
-        }
-
-        .blog-card p:first-of-type {
-            margin-top: 1.25rem;
-        }
-
-        .blog-card p:first-of-type:before {
-            content: "";
-            position: absolute;
-            height: 5px;
-            background: dodgerblue;
-            width: 35px;
-            top: -0.75rem;
-            border-radius: 3px;
-        }
-
-        .blog-card:hover .details {
-            left: 0%;
-        }
-
-        @media (min-width: 640px) {
             .blog-card {
-                flex-direction: row;
-                max-width: 700px;
+                display: flex;
+                flex-direction: column;
+                margin: 1rem auto;
+                margin-bottom: 1.6%;
+                background: #fff;
+                line-height: 1.4;
+                font-family: sans-serif;
+                border-radius: 5px;
+                overflow: hidden;
+                z-index: 0;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
+
+            .blog-card a {
+                color: inherit;
+            }
+
+            .blog-card a:hover {
+                color: #5ad67d;
+            }
+
+            .blog-card:hover .photo {
+                transform: scale(1.3) rotate(3deg);
             }
 
             .blog-card .meta {
-                flex-basis: 40%;
-                height: auto;
+                position: relative;
+                z-index: 0;
+                height: 200px;
+            }
+
+            .blog-card .photo {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-size: cover;
+                background-position: center;
+                transition: transform 0.2s;
+            }
+
+            .blog-card .details,
+            .blog-card .details ul {
+                margin: auto;
+                padding: 0;
+                list-style: none;
+            }
+
+            .blog-card .details {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: -100%;
+                margin: auto;
+                transition: left 0.2s;
+                background: rgba(0, 0, 0, .6);
+                color: #fff;
+                padding: 10px;
+                width: 100%;
+                font-size: 0.9rem;
+            }
+
+            .blog-card .details a {
+                text-decoration: dotted underline;
+            }
+
+            .blog-card .details ul li {
+                display: inline-block;
+            }
+
+            .blog-card .details .author:before {
+                font-family: FontAwesome;
+                margin-right: 10px;
+                content: "\f007";
+            }
+
+            .blog-card .details .date:before {
+                font-family: FontAwesome;
+                margin-right: 10px;
+                content: "\f133";
+            }
+
+            .blog-card .details .hour:before {
+                font-family: FontAwesome;
+                margin-right: 10px;
+                content: "\f017";
+            }
+
+            .blog-card .details .tags ul:before {
+                font-family: FontAwesome;
+                content: "\f02b";
+                margin-right: 10px;
+            }
+
+            .blog-card .details .tags li {
+                margin-right: 2px;
+            }
+
+            .blog-card .details .tags li:first-child {
+                margin-left: -4px;
             }
 
             .blog-card .description {
-                flex-basis: 60%;
-            }
-
-            .blog-card .description:before {
-                transform: skewX(-3deg);
-                content: "";
+                padding: 1rem;
                 background: #fff;
-                width: 30px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .blog-card .description h1,
+            .blog-card .description h2 {
+                font-family: Poppins, sans-serif;
+            }
+
+            .blog-card .description h1 {
+                line-height: 1;
+                margin: 0;
+                font-size: 1.7rem;
+            }
+
+            .blog-card .description h2 {
+                font-size: 1rem;
+                font-weight: 300;
+                text-transform: uppercase;
+                color: #a2a2a2;
+                margin-top: 5px;
+            }
+
+            .blog-card .description .read-more {
+                text-align: right;
+            }
+
+            .blog-card .description .read-more a {
+                color: dodgerblue;
+                display: inline-block;
+                position: relative;
+            }
+
+            .blog-card .description .read-more a:after {
+                content: "\f061";
+                font-family: FontAwesome;
+                margin-left: -10px;
+                opacity: 0;
+                vertical-align: middle;
+                transition: margin 0.3s, opacity 0.3s;
+            }
+
+            .blog-card .description .read-more a:hover:after {
+                margin-left: 5px;
+                opacity: 1;
+            }
+
+            .blog-card p {
+                position: relative;
+                margin: 1rem 0 0;
+            }
+
+            .blog-card p:first-of-type {
+                margin-top: 1.25rem;
+            }
+
+            .blog-card p:first-of-type:before {
+                content: "";
                 position: absolute;
-                left: -10px;
-                top: 0;
-                bottom: 0;
-                z-index: -1;
+                height: 5px;
+                background: dodgerblue;
+                width: 35px;
+                top: -0.75rem;
+                border-radius: 3px;
             }
 
-            .blog-card.alt {
-                flex-direction: row-reverse;
+            .blog-card:hover .details {
+                left: 0%;
             }
 
-            .blog-card.alt .description:before {
-                left: inherit;
-                right: -10px;
-                transform: skew(3deg);
+            @media (min-width: 640px) {
+                .blog-card {
+                    flex-direction: row;
+                    max-width: 700px;
+                }
+
+                .blog-card .meta {
+                    flex-basis: 40%;
+                    height: auto;
+                }
+
+                .blog-card .description {
+                    flex-basis: 60%;
+                }
+
+                .blog-card .description:before {
+                    transform: skewX(-3deg);
+                    content: "";
+                    background: #fff;
+                    width: 30px;
+                    position: absolute;
+                    left: -10px;
+                    top: 0;
+                    bottom: 0;
+                    z-index: -1;
+                }
+
+                .blog-card.alt {
+                    flex-direction: row-reverse;
+                }
+
+                .blog-card.alt .description:before {
+                    left: inherit;
+                    right: -10px;
+                    transform: skew(3deg);
+                }
+
+                .blog-card.alt .details {
+                    padding-left: 25px;
+                }
             }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="./home.css">
 
-            .blog-card.alt .details {
-                padding-left: 25px;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
-    <link rel="stylesheet" href="./home.css">
+    </head>
 
-</head>
+    <body>
+        <link
+            href='https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700,400italic|Montserrat:400,700|Cardo:400italic|Advent+Pro:100'
+            rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-<body>
-    <link
-        href='https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,700,400italic|Montserrat:400,700|Cardo:400italic|Advent+Pro:100'
-        rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
-    <!-- NAVIGATION -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand scroll" href="#home">MicroBlog</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><button style="background-color: transparent; border-color: transparent;"
-                            onclick="window.location.href='#home'" class="scroll">HOME</button></li>
-                    <li><button style="background-color: transparent; border-color: transparent;"
-                            onclick="window.location.href='#about'" class="scroll">ABOUT</button></li>
-                    <li><button style="background-color: transparent; border-color: transparent;"
-                            onclick="window.location.href='#post'" class="scroll">POST</button></li>
-                    <li><button style="background-color: transparent; border-color: transparent;"
-                            onclick="window.location.href='ProfileServlet'" class="scroll">PROFILE</button></li>
-                    <li><button style="background-color: transparent; border-color: transparent;"
-                            onclick="window.location.href='LogoutServlet'" class="scroll">LOGOUT</button></li>
-                    <li><button style="background-color: transparent; border-color: transparent;"
-                            onclick="window.location.href='NewPost.html'" class="scroll"><i class="fa fa-plus"></i> NEW
-                            POST</li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div id="home">
-        <div class="container" style="margin-top: 10em; margin-bottom: 10em;">
-            <h1>BLOGGHINO</h1>
-            <h5>BUILD A MICROBLOG WEB APP</h5>
-        </div>
-    </div>
-
-    <!-- ABOUT -->
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-lg-7">
-                    <h1>ABOUT</h1>
-                    <p class="lead">Objective: Build a CodePen.io app that successfully reverse-engineers <a
-                            href="https://codepen.io/ThiagoFerreir4/full/eNMxEp" target="_blank">this <em
-                                class="fa fa-external-link"></em></a></p>
-                    <p><strong>Rule #1:</strong> Don't look at the example project's code on CodePen. Figure it out for
-                        yourself.</p>
-                    <p><strong>Rule #2:</strong> You may use whichever libraries or APIs you need.</p>
-                    <p><strong>Rule #3:</strong> Reverse engineer the example project's functionality, and also feel
-                        free to personalize it.</p>
-                    <p><strong>Hint:</strong> If you don't want to start from scratch, you can fork this simple
-                        Bootstrap portfolio template on <a href="https://codepen.io/FreeCodeCamp/pen/mJNqQj"
-                            target="_blank">CodePen <em class="fa fa-external-link"></em></a></p>
-                    <p>Here are the user stories you must enable, and optional bonus user stories:</p>
-                    <p><strong>User Story:</strong> As a user, I can access all of the portfolio webpage's content just
-                        by scrolling.</p>
-                    <p><strong>User Story:</strong> As a user, I can click different buttons that will take me to the
-                        portfolio creator's different social media pages.</p>
-                    <p><strong>User Story:</strong> As a user, I can see thumbnail images of different projects the
-                        portfolio creator has built (if you haven't built any websites before, use placeholders.)</p>
-                    <p><strong>Bonus User Story:</strong> As a user, I navigate to different sections of the webpage by
-                        clicking buttons in the navigation.</p>
-                    <p>Don't worry if you don't have anything to showcase on your portfolio yet - you will build several
-                        apps on the next few CodePen challenges, and can come back and update your portfolio later.</p>
-                    <p>There are many great portfolio templates out there, but for this challenge, you'll need to build
-                        a portfolio page yourself. Using Bootstrap will make this much easier for you.</p>
-                    <blockquote>
-                        <p>Remember to use <mark><em>Read-Search-Ask</em></mark> if you get stuck.</p>
-                    </blockquote>
-                    <p>When you are finished, click the <strong>"I've completed this challenge"</strong> button and
-                        include a link to your CodePen. If you pair programmed, you should also include the Free Code
-                        Camp username of your pair.</p>
+        <!-- NAVIGATION -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand scroll" href="#home">MicroBlog</a>
                 </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><button style="background-color: transparent; border-color: transparent;"
+                                    onclick="window.location.href = '#home'" class="scroll">HOME</button></li>
+                        <li><button style="background-color: transparent; border-color: transparent;"
+                                    onclick="window.location.href = '#about'" class="scroll">ABOUT</button></li>
+                        <li><button style="background-color: transparent; border-color: transparent;"
+                                    onclick="window.location.href = '#post'" class="scroll">POST</button></li>
+                        <li><button style="background-color: transparent; border-color: transparent;"
+                                    onclick="window.location.href = 'ProfileServlet'" class="scroll">PROFILE</button></li>
+                        <li><button style="background-color: transparent; border-color: transparent;"
+                                    onclick="window.location.href = 'LogoutServlet'" class="scroll">LOGOUT</button></li>
+                        <li><button style="background-color: transparent; border-color: transparent;"
+                                    onclick="window.location.href = 'NewPost.html'" class="scroll"><i class="fa fa-plus"></i> NEW
+                                POST</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
+        <div id="home">
+            <div class="container" style="margin-top: 10em; margin-bottom: 10em;">
+                <h1>BLOGGHINO</h1>
+                <h5>BUILD A MICROBLOG WEB APP</h5>
             </div>
         </div>
-    </div>
+
+        <!-- ABOUT -->
+        <div id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-lg-7">
+                        <h1>ABOUT</h1>
+                        <p class="lead">Microblog School Project <a href="https://github.com/Elia01/MicroBlog"
+                                                                    target="_blank"> this is the project <em class="fa fa-external-link"></em></a></p>
 
 
-    <!-- POST -->
-    <div id="post">
-        <div class="container">
-            <h1>POST</h1>
-            <p class="lead">Below you'll find some of my recent work.</p>
+
+
+
+                        <p><strong>Part #1:</strong> Create a simple application for the management of a
+                            microblog.</p>
+                        <p><strong>Requirements:</strong></p>
+                        <p>- the administrator user can add new posts (a post consists of a title, date and time of
+                            publication, text of the post)</p>
+                        <p>- the public (unregistered) user can read all the posts</p><br>
+                        <p><strong> Advanced level:</strong></p>
+                        <p>- provide the possibility of registration for public users</p>
+                        <p>- registered public users can comment on posts</p>
+                        <p>- comments can be read by all public users</p><br>
+
+                        <p><strong>Part #2:</strong> Watch the 2 videos of the lesson:</p>
+
+                        <p><strong>1 --></strong><a href="https://youtu.be/7uUy5ykcHes">Implementation of the project
+                                provided on NetBeans <em class="fa fa-external-link"></em></a></p>
+
+                        <p>
+                            <strong>2 --></strong><a href="https://youtu.be/XUq3qeN4Nms">Using Postman to test the service
+                                <em class="fa fa-external-link"></em></a>
+                        </p><br>
+
+                        <p><strong>Download the Netbeans project from the link:</strong></p>
+                        <p><a href="https://drive.google.com/file/d/1PwNpY7R8LvqIKbbN_9ynHtdzkl8nqNMn/view?usp=sharing"> To
+                                use as an
+                                example<em class="fa fa-external-link"></em></a> to extend the Microblog project by
+                            implementing the following actions:</p>
+
+                        <p><strong>Read all POSTs:</strong></p>
+                        <p>- GET http://localhost:8080/Microblog/rest/posts</p><br>
+
+                        <p><strong>Read a post given his id:</strong></p>
+
+                        <p>- GET http://localhost:8080/Microblog/rest/posts/{id}</p><br>
+
+                        <p><strong>Enter a new POST:</strong></p>
+                        <p>- POST http://localhost:8080/Microblog/rest/posts</p><br>
+
+                        <p>Passing the resource in JSON format in the leotard</p>
+
+                        <a href="https://www.postman.com/"><em class="fa fa-external-link">Install Postman to test the
+                                service</em></a><br>
+
+                        <p><strong>Useful online resources:</strong></p>
+
+                        <p><a href="https://howtodoinjava.com/jersey-jax-rs-tutorials/">jersey jax rs <em
+                                    class="fa fa-external-link"></em></a></p>
+
+                        <p><a href="https://eclipse-ee4j.github.io/jersey/">jersey <em class="fa fa-external-link"></em></a>
+                        </p>
+
+                        <p><a href="https://jcp.org/en/jsr/detail?id=339">JAX-RS Specifications <em
+                                    class="fa fa-external-link"></em></a></p><br>
+
+                        <p><strong>Part #3:</strong> Build a client to consume REST services:</p>
+
+                        <p>-Generate a SPA application (Single Page Application) to consume the REST services realized in
+                            phase two of the Microblog project.</p>
+
+                        <p>-Use as a reference the <strong>"managementStudentClient"</strong> project used during the
+                            lesson.
+                            To make it work it is necessary to download also the server project
+                            <strong>"manageStudentiClient"</strong>.</p>
+
+                        <p>-It is also possible to create a complete client via mobile application (Flutter) or with other
+                            client-side scripting language.</p>
+
+
+
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <div id="section-post">
-            <div w3-include-html="PostsList.html"></div>
-            <script>
-                includeHTML();
-            </script>
+
+
+        <!-- POST -->
+        <div id="post">
+            <div class="container">
+                <h1>POST</h1>
+                <p class="lead">Below you'll find some of my recent work.</p>
+            </div>
+            <div id="section-post">
+                <div w3-include-html="PostsList.html"></div>
+                <script>
+                    includeHTML();
+                </script>
+            </div>
         </div>
-    </div>
 
 
 
@@ -390,12 +435,12 @@
 
 
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
-    <script src="./home.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+        <script src="./home.js"></script>
 
 
 
-</body>
+    </body>
 
 </html>

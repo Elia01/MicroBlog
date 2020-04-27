@@ -21,31 +21,28 @@ public class LoginServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
-            
+
             String usrnm = request.getParameter("usrnm");
             String psw = request.getParameter("psw");
-            
+
             byte[] salt = Validate.getSalt(usrnm);
-            
+
             String hashedPsw = Hashing.saltToPassword.getSecurePassword(psw, salt);
-            
-            if(Validate.checkUser(usrnm, hashedPsw))
-            {
-                HttpSession session = request.getSession(); 
+
+            if (Validate.checkUser(usrnm, hashedPsw)) {
+                HttpSession session = request.getSession();
                 session.setAttribute("usrnm", usrnm);
-                
+
                 RequestDispatcher rs = request.getRequestDispatcher("home.html");
                 rs.forward(request, response);
-            }
-            else
-            {
+            } else {
                 out.println("Username or Password incorrect");
                 RequestDispatcher rs = request.getRequestDispatcher("login.html");
                 rs.include(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
 }
