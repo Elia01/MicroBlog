@@ -23,8 +23,8 @@ If you go to the bottom of the page you can see the various published posts that
 
 ![Post](https://github.com/Elia01/MicroBlog/blob/master/images/post.PNG)
 
-| --- |
-
+---
+|||
 ### POST
 
 If you click on **read more** you will enter the post page where you can see the text of the post, the comments section and the section where you can write your own comment.
