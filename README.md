@@ -60,7 +60,7 @@ COMMENT varchar(1000)
 ## Built With
 
 * [Netbeans](https://netbeans.org/) - Development environment used
-* [Derby](https://db.apache.org/derby/derby_downloads.html) - Database used
+* [Derby](https://db.apache.org/derby/derby_downloads.html) - Database used -> see [derbyclient.jar](https://github.com/Elia01/MicroBlog/blob/master/derbyclient.jar) to download it
 
 ## Contributing
 
