@@ -5,6 +5,10 @@ School project for the creation of a microblog made to web application.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+### Tutorial
+
+Read [TUTORIAL.md](https://github.com/Elia01/MicroBlog/blob/master/TUTORIAL.md) To observe the full functionality of the microblog
+
 ### Prerequisities
 
 What you need for the operation of the project and how to set it up.
