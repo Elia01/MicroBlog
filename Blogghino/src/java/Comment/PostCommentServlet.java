@@ -43,9 +43,6 @@ public class PostCommentServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         String a = session.getAttribute("usrnm").toString();
-        if(a == ""){
-            response.sendRedirect("LoginFirstServlet");
-        }
         
         String f = request.getParameter("Cibo");
         //new request

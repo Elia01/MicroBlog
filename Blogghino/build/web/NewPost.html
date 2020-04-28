@@ -5,43 +5,78 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
+    <script>
+        function includeHTML() {
+            var z, i, elmnt, file, xhttp;
+            /*loop through a collection of all HTML elements:*/
+            z = document.getElementsByTagName("*");
+            for (i = 0; i < z.length; i++) {
+                elmnt = z[i];
+                /*search for elements with a certain atrribute:*/
+                file = elmnt.getAttribute("w3-include-html");
+                if (file) {
+                    /*make an HTTP request using the attribute value as the file name:*/
+                    xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4) {
+                            if (this.status == 200) {
+                                elmnt.innerHTML = this.responseText;
+                            }
+                            if (this.status == 404) {
+                                elmnt.innerHTML = "Page not found.";
+                            }
+                            /*remove the attribute, and call this function once more:*/
+                            elmnt.removeAttribute("w3-include-html");
+                            includeHTML();
+                        }
+                    }
+                    xhttp.open("GET", file, true);
+                    xhttp.send();
+                    /*exit the function:*/
+                    return;
+                }
+            }
+        }
+        ;
+    </script>
     <head>
         <title>Blogghino</title>
         <meta charset="ISO-8859-1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
+            @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
             * {box-sizing: border-box;}
 
             body { 
-                background: linear-gradient(to right, dodgerblue 5%, MidnightBlue 100%);
+                background: linear-gradient(to right, dodgerblue 5%, turquoise 100%);
                 margin:0;
                 font-size: 12px;
             }
-            
+
             body, button, input{
                 font-family: Arial, Helvetica, sans-serif;
                 font-weight: 700;
                 letter-spacing: 1.4px;
             }
-            
+
             .background{
                 display: flex;
                 min-height: 100vh;
             }
-            
+
             .container{
                 flex: 0 1 700px;
                 margin: auto;
                 padding: 10px;
             }
-            
+
             .screen{
                 position: relative;
                 background-color: #3e3e3e;
                 border-radius: 15px;
-                
+
             }
-            
+
             .screen:after{
                 content: '';
                 display: block;
@@ -54,69 +89,22 @@ and open the template in the editor.
                 border-radius: 15px;
                 box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             }
-            
-            .screen-header{
-                display: flex;
-                align-items: center;
-                padding: 10px 20px;
-                background-color: #4d4d4f;
-                border-top-left-radius: 15px;
-                border-top-right-radius: 15px;
-                
-            }
-            
-            .screen-header-left{
-                margin-right: auto;
-            }
-            
-            .screen-header-button{
-                display: inline-block;
-                width: 8px;
-                height: 8px;
-                margin-right: 3px;
-                border-radius: 8px;
-                background-color: #fff;
-            }
-            
-            .screen-header-button.close{
-                background-color: #ed1c6f;
-            }
-            
-            .screen-header-button.maximize{
-                background-color: #e8e925;
-            }
-            
-            .screen-header-button.minimize{
-                background-color: #74c54f;
-            }
-            
-            .screen-header-right{
-                display: flex;
-            }
-            
-            .screen-header-ellipsis{
-                width: 3px;
-                height: 3px;
-                margin-left: 2px;
-                border-radius: 8px;
-                background-color: #999;
-            }
-            
+
             .screen-body{
                 display: flex;
             }
-            
+
             .screen-body-item{
                 flex: 1;
                 padding: 50px;
-                
+
             }
-            
+
             .screen-body-item.left{
                 display: flex;
                 flex-direction: column;
             }
-            
+
             .app-title{
                 display: flex;
                 flex-direction: column;
@@ -124,7 +112,7 @@ and open the template in the editor.
                 color: dodgerblue;
                 font-size: 26px;
             }
-            
+
             .app-title:after{
                 content: '';
                 display: block;
@@ -135,26 +123,26 @@ and open the template in the editor.
                 height: 4px;
                 background-color: dodgerblue;
             }
-            
+
             .app-sub{
                 margin-top: auto;
                 font-size: 11px;
                 color: #888;
             }
-            
+
             .app-form-group{
                 margin-bottom: 15px;
             }
-            
+
             .app-form-group.message{
                 margin-top: 40px;
             }
-            
+
             .app-form-group.buttons{
                 margin-bottom: 0px;
                 text-align: right;
             }
-            
+
             .app-form-control{
                 width: 100%;
                 padding: 10px 0;
@@ -166,15 +154,15 @@ and open the template in the editor.
                 outline: none;
                 transition: border-color 0.2s;
             }
-            
+
             .app-form-control::placeholder{
                 color: #666;
             }
-            
+
             .app-form-control:focus{
                 border-bottom-color: #ddd;
             }
-            
+
             .app-form-button{
                 background-color: transparent;
                 border: none;
@@ -183,100 +171,201 @@ and open the template in the editor.
                 cursor: pointer;
                 outline: none;
             }
-            
+
             .app-form-button:hover{
                 color: midnightblue;
             }
 
-            .header {
-                overflow: hidden;
-                background-color: #f1f1f1;
-                padding: 20px 10px;
-            }
-
-            .header a {
-                float: left;
-                color: black;
-                text-align: center;
-                padding: 12px;
-                text-decoration: none;
-                font-size: 18px; 
-                line-height: 25px;
-                border-radius: 4px;
-            }
-
-            .header a.logo {
-                font-size: 25px;
-                font-weight: bold;
-            }
-
-            .header a:hover {
-                background-color: #ddd;
-                color: black;
-            }
-
-            .header a.active {
-                background-color: dodgerblue;
-                color: white;
-            }
-
-            .header-right {
-                float: right;
-            }
 
             @media screen and (max-width: 520px) {
                 .screen-body{
                     flex-direction: column;
                 }
-                
+
                 .screen-body-item.left{
                     margin-bottom: 30px;
                 }
-                
+
                 .app-title{
                     flex-direction: row;
                 }
-                
+
                 .app-title span{
                     margin-right: 12px;
                 }
-                
+
                 .app-title:after{
                     display: none;
                 }
-  
+
             }
             @media screen and (max-width: 600px) {
                 .screen-body{
                     padding: 40px;
                 }
-                
+
                 .screen-body-item{
                     padding: 0;
                 }
             }
-            @media screen and (max-width: 500px) {
-                .header a {
-                    float: none;
-                    display: block;
-                    text-align: left;
-                }
 
-                .header-right {
-                    float: none;
-                }
+
+
+
+
+            body {
+                display: -webkit-box;
+                display: flex;
+                font-family: Roboto, "Helvetica Neue", sans-serif;
+                font-size: 18px;
+                -webkit-perspective: 1000px;
+                perspective: 1000px;
+                background-color: #f5f5f5;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                flex-direction: column;
+                -webkit-box-pack: center;
+                justify-content: center;
+                -webkit-box-align: center;
+                align-items: center;
             }
-            
-            
+
+            .btn.is-open ~ .description {
+                opacity: 0;
+            }
+
+            .btn {
+                display: block;
+                position: relative;
+                width: 200px;
+                height: 80px;
+                -webkit-transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1), height 0.8s cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1), height 0.8s cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1), height 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1), height 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+                -webkit-transform-origin: 50% 50%;
+                transform-origin: 50% 50%;
+                text-align: center;
+            }
+
+            .btn-front {
+                position: absolute;
+                display: block;
+                width: 100%;
+                height: 100%;
+                line-height: 80px;
+                background-color: #F44336;
+                color: #fff;
+                cursor: pointer;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-transition: background 0.15s ease, line-height 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+                transition: background 0.15s ease, line-height 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            }
+
+            .btn-front:hover {
+                background-color: #f77066;
+            }
+
+            .btn.is-open .btn-front {
+                pointer-events: none;
+                line-height: 160px;
+            }
+
+            .btn-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background-color: #eee;
+                color: #222;
+                -webkit-transform: translateZ(-2px) rotateX(180deg);
+                transform: translateZ(-2px) rotateX(180deg);
+                overflow: hidden;
+                -webkit-transition: box-shadow 0.8s ease;
+                transition: box-shadow 0.8s ease;
+            }
+
+            .btn-back p {
+                margin-top: 27px;
+                margin-bottom: 25px;
+            }
+
+            .btn-back button {
+                padding: 12px 20px;
+                width: 30%;
+                margin: 0 5px;
+                background-color: transparent;
+                border: 0;
+                border-radius: 2px;
+                font-size: 1em;
+                cursor: pointer;
+                -webkit-appearance: none;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                -webkit-transition: background 0.15s ease;
+                transition: background 0.15s ease;
+            }
+            .btn-back button:focus {
+                outline: 0;
+            }
+            .btn-back button.yes {
+                background-color: dodgerblue;
+                color: #fff;
+            }
+            .btn-back button.yes:hover {
+                background-color: #51adf6;
+            }
+            .btn-back button.no {
+                color: #2196F3;
+            }
+            .btn-back button.no:hover {
+                background-color: #ddd;
+            }
+
+            .btn.is-open .btn-back {
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            }
+
+            .btn[data-direction="left"] .btn-back,
+            .btn[data-direction="right"] .btn-back {
+                -webkit-transform: translateZ(-2px) rotateY(180deg);
+                transform: translateZ(-2px) rotateY(180deg);
+            }
+
+            .btn.is-open {
+                width: 400px;
+                height: 160px;
+            }
+
+            .btn[data-direction="top"].is-open {
+                -webkit-transform: rotateX(180deg);
+                transform: rotateX(180deg);
+            }
+
+            .btn[data-direction="right"].is-open {
+                -webkit-transform: rotateY(180deg);
+                transform: rotateY(180deg);
+            }
+
+            .btn[data-direction="bottom"].is-open {
+                -webkit-transform: rotateX(-180deg);
+                transform: rotateX(-180deg);
+            }
+
+            .btn[data-direction="left"].is-open {
+                -webkit-transform: rotateY(-180deg);
+                transform: rotateY(-180deg);
+            }
+
         </style>
     </head>
     <body>
-        <div class="header">
-            <a href="home.html" class="logo">Blogghino</a>
-        </div>
         
         <div class="background">
             <div class="container">
+                <center><p>If you are not the admin you can't do that</p></center>
                 <div class="screen">
                     <div class="screen-header">
                         <div class="screen-header-left">
@@ -284,14 +373,14 @@ and open the template in the editor.
                             <div class="screen-header-button maximize"></div>
                             <div class="screen-header-button minimize"></div>
                         </div>
-                        
+
                         <div class="screen-header-right">
                             <div class="screen-header-ellipsis"></div>
                             <div class="screen-header-ellipsis"></div>
                             <div class="screen-header-ellipsis"></div>
                         </div>
                     </div>
-                    
+
                     <div class="screen-body">
                         <div class="screen-body-item left">
                             <div class="app-title">
@@ -299,49 +388,65 @@ and open the template in the editor.
                                 <span>POST</span>
                             </div>
                             <div class="app-sub">MAKE AN AMAZING SITE</div>
-                            
+
                         </div>
-                        
+
                         <div class="screen-body-item">
                             <div class="app-form">
                                 <form action="CreatePostServlet" method="post" id="form1">
-                                <div class="app-form-group">
-                                    <input class="app-form-control" type="text" placeholder="INSERT A TITLE" name="title">
-                                </div>
-                                
-                                <div class="app-form-group">
-                                    <input class="app-form-control" type="text" placeholder="INSERT A SUBTITLE" name="subtitle">
-                                </div>
-                                                                                               
-                                <div class="app-form-group">
-                                    <input class="app-form-control" type="text" placeholder="INSERT SOME TAGS" name="tags">
-                                </div>
-                                    
-                                <div class="app-form-group">
-                                    <input class="app-form-control" type="text" placeholder="INSERT IMAGE URL" name="image">
-                                </div>
-                                
-                                <div class="app-form-group message">
-                                    <textarea class="app-form-control" placeholder="INSERT A SHORT SUMMARY..." name="content"></textarea>
-                                    <!--<input class="app-form-control" type="text" placeholder="INSERT SOME CONTENT..." name="content">-->
-                                    
-                                </div>
-                                
+                                    <div class="app-form-group">
+                                        <input class="app-form-control" type="text" placeholder="INSERT A TITLE" name="title">
+                                    </div>
+
+                                    <div class="app-form-group">
+                                        <input class="app-form-control" type="text" placeholder="INSERT A SUBTITLE" name="subtitle">
+                                    </div>
+
+                                    <div class="app-form-group">
+                                        <input class="app-form-control" type="text" placeholder="INSERT SOME TAGS" name="tags">
+                                    </div>
+
+                                    <div class="app-form-group">
+                                        <input class="app-form-control" type="text" placeholder="INSERT IMAGE URL" name="image">
+                                    </div>
+
+                                    <div class="app-form-group message">
+                                        <textarea class="app-form-control" placeholder="INSERT A SHORT SUMMARY..." name="content"></textarea>
+                                        <!--<input class="app-form-control" type="text" placeholder="INSERT SOME CONTENT..." name="content">-->
+
+                                    </div>
+
                                 </form>
                                 <div class="app-form-group buttons">
-                                    <button class="app-form-button" onclick="window.location.href='welcome.html'">CANCEL</button>
                                     <button class="app-form-button" type="submit" form="form1" value="Submit">SEND</button>
-                                    
+
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        
+
+
+
+
                     </div>
+
                 </div>
+                <br>
+                <center>
+                    <div class="btn">
+                        <div class="btn-back">
+                            <p>Are you sure you want to do that?</p>
+                            <button class="yes" onclick="window.location.href='./home.html'">Yes</button>
+                            <button class="no">No</button>
+                        </div>
+                        <div class="btn-front">Delete</div>
+                    </div>
+                </center>
             </div>
-        </div>
-        
+
+</div>
+
+
+            <script  src="./cancel.js"></script>
+
     </body>
 </html>

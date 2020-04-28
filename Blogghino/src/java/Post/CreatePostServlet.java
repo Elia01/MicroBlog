@@ -43,11 +43,11 @@ public class CreatePostServlet extends HttpServlet {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection connect = DriverManager.getConnection("jdbc:derby://localhost:1527/MicroBlogDB", "USER1", "USER1");
             Statement stat = connect.createStatement();
-            ResultSet res = stat.executeQuery("SELECT * FROM UTENTI WHERE" + a);
+            ResultSet res = stat.executeQuery("SELECT * FROM UTENTI WHERE USERNAME LIKE '" + a + "'");
             res.next();
 
             String ruolo = res.getString("ROLE");
-            if (ruolo == "Admin") {
+            if ("Admin".equals(ruolo)) {
 
                 String ttl = request.getParameter("title");
                 String subttl = request.getParameter("subtitle");
