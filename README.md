@@ -61,6 +61,9 @@ COMMENT varchar(1000)
 
 * [Netbeans](https://netbeans.org/) - Development environment used
 * [Derby](https://db.apache.org/derby/derby_downloads.html) - Database used -> see [derbyclient.jar](https://github.com/Elia01/MicroBlog/blob/master/derbyclient.jar) to download it
+* [Javax](http://www.java2s.com/Code/Jar/j/Downloadjavaxjar.htm) - Library used -> see [javax.faces-api-2.1.jar](https://github.com/Elia01/MicroBlog/blob/master/javax.faces-api-2.1.jar) to download it
+* [Json](https://code.google.com/archive/p/json-simple/) - Response text -> see [json-20200518.jar](https://github.com/Elia01/MicroBlog/blob/master/json-20200518.jar) to download it
+* [Primefaces](https://www.primefaces.org/downloads/) - Client -> see [primefaces-80.jar](https://github.com/Elia01/MicroBlog/blob/master/primefaces-8.0.jar) to download it
 
 ## Contributing
 
