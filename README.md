@@ -45,6 +45,22 @@ CONTENT varchar(5000),
 ID varchar (500)
 );
 ```
+- **SAVEDPOST**
+Is the same of POST table, but in this one are stored all the information of all the posts.
+
+```
+CREATE TABLE SAVEDPOST(
+IMAGE varchar(500),
+AUTHOR varchar(500),
+DATE varchar(500),
+HOURS varchar(500),
+TAGS varchar (500),
+TITLE varchar(500),
+SUBTITLE varchar(500),
+CONTENT varchar(5000),
+ID varchar (500)
+);
+```
 
 - **COMMENT**
 at the moment the URL of the image is being saved, but you are trying to upload the images in a separate folder to facilitate the upload.
